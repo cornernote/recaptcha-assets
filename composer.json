@@ -1,0 +1,8 @@
+{
+    "name": "mrphp/php-recaptcha",
+    "description": "Toolkit for reCaptcha",
+    "type": "library",
+    "license": "GPL3",
+    "keywords": ["recaptcha","mrphp"],
+    "minimum-stability": "dev"
+}

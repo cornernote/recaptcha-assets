@@ -1,3 +1,1 @@
-php-recaptcha
-=============
-
+# ReCaptcha Assets

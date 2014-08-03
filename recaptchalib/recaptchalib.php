@@ -52,6 +52,7 @@ function _recaptcha_qsencode($data)
 
     // Cut the last '&'
     $req = substr($req, 0, strlen($req) - 1);
+
     return $req;
 }
 
@@ -110,8 +111,7 @@ function recaptcha_get_html($pubkey, $error = null, $use_ssl = false)
 
     if ($use_ssl) {
         $server = RECAPTCHA_API_SECURE_SERVER;
-    }
-    else {
+    } else {
         $server = RECAPTCHA_API_SERVER;
     }
 
@@ -119,6 +119,7 @@ function recaptcha_get_html($pubkey, $error = null, $use_ssl = false)
     if ($error) {
         $errorpart = "&amp;error=" . $error;
     }
+
     return '<script type="text/javascript" src="' . $server . '/challenge?k=' . $pubkey . $errorpart . '"></script>
 
 	<noscript>
@@ -128,16 +129,14 @@ function recaptcha_get_html($pubkey, $error = null, $use_ssl = false)
 	</noscript>';
 }
 
-
 /**
  * A ReCaptchaResponse is returned from recaptcha_check_answer()
  */
 class ReCaptchaResponse
 {
-    var $is_valid;
-    var $error;
+    public $is_valid;
+    public $error;
 }
-
 
 /**
  * Calls an HTTP POST function to verify if the user's guess was correct
@@ -164,6 +163,7 @@ function recaptcha_check_answer($privkey, $remoteip, $challenge, $response, $ext
         $recaptcha_response = new ReCaptchaResponse();
         $recaptcha_response->is_valid = false;
         $recaptcha_response->error = 'incorrect-captcha-sol';
+
         return $recaptcha_response;
     }
 
@@ -181,11 +181,11 @@ function recaptcha_check_answer($privkey, $remoteip, $challenge, $response, $ext
 
     if (trim($answers [0]) == 'true') {
         $recaptcha_response->is_valid = true;
-    }
-    else {
+    } else {
         $recaptcha_response->is_valid = false;
         $recaptcha_response->error = $answers [1];
     }
+
     return $recaptcha_response;
 
 }
@@ -206,6 +206,7 @@ function _recaptcha_aes_pad($val)
 {
     $block_size = 16;
     $numpad = $block_size - (strlen($val) % $block_size);
+
     return str_pad($val, strlen($val) + $numpad, chr($numpad));
 }
 
@@ -219,6 +220,7 @@ function _recaptcha_aes_encrypt($val, $ky)
     $mode = MCRYPT_MODE_CBC;
     $enc = MCRYPT_RIJNDAEL_128;
     $val = _recaptcha_aes_pad($val);
+
     return mcrypt_encrypt($enc, $ky, $val, $mode, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
 }
 
@@ -254,13 +256,12 @@ function _recaptcha_mailhide_email_parts($email)
 
     if (strlen($arr[0]) <= 4) {
         $arr[0] = substr($arr[0], 0, 1);
-    }
-    else if (strlen($arr[0]) <= 6) {
+    } elseif (strlen($arr[0]) <= 6) {
         $arr[0] = substr($arr[0], 0, 3);
-    }
-    else {
+    } else {
         $arr[0] = substr($arr[0], 0, 4);
     }
+
     return $arr;
 }
 
